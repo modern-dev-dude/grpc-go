@@ -8,11 +8,24 @@
 	<script src="./htmx.js"></script>
 </head>
 <body>
-	<div class="relative grid  h-screen content-center justify-center">
+	<div class="relative grid h-screen content-center justify-center">
 		<div class="rounded-xl p-4 border-2 justify-items-center border-black-50 shadow-xl">
 			<p>Rendering with gRPC and Go</p>
 			{{template "inner.html" .}}
 		</div>
+		<div class="rounded-xl p-4 border-2 justify-items-center border-black-50 shadow-xl">
+			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="randomNumber()">Click </button>
+			<p>random number generated: &nbsp;<span id="random-number"></span></p>
+		</div>
 	</div>
+<script>
+	function randomNumber(){
+		 fetch("./random-number").then(res => res.json()).then(data => {
+			const el = document.getElementById("random-number")
+			 console.log(data)
+			el.innerText = data?.randNum ?? "no number generated"
+		})
+	}
+</script>
 </body>
 </html>
