@@ -1,7 +1,9 @@
-package rendering_engine
+package main
 
-import "log"
+import (
+	renderclient "rendering-engine/packages/render-client"
+)
 
 func main() {
-	log.Println("Hello gRPC client")
+	renderclient.StartClient()
 }
