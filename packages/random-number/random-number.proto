@@ -1,0 +1,16 @@
+syntax = "proto3";
+package rn;
+option go_package = "./random-number";
+
+
+message ReqMessage {
+  string reqId = 1;
+}
+
+message ResMessage {
+  int64 randNum = 1;
+}
+
+service RenderingEngine {
+  rpc RenderPage(ReqMessage) returns (ResMessage) {}
+}
