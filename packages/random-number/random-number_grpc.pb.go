@@ -19,101 +19,101 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	RenderingEngine_RenderPage_FullMethodName = "/rn.RenderingEngine/RenderPage"
+	RandomNumber_GetRandomNumber_FullMethodName = "/rn.RandomNumber/GetRandomNumber"
 )
 
-// RenderingEngineClient is the client API for RenderingEngine service.
+// RandomNumberClient is the client API for RandomNumber service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type RenderingEngineClient interface {
-	RenderPage(ctx context.Context, in *ReqMessage, opts ...grpc.CallOption) (*ResMessage, error)
+type RandomNumberClient interface {
+	GetRandomNumber(ctx context.Context, in *ReqMessage, opts ...grpc.CallOption) (*ResMessage, error)
 }
 
-type renderingEngineClient struct {
+type randomNumberClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewRenderingEngineClient(cc grpc.ClientConnInterface) RenderingEngineClient {
-	return &renderingEngineClient{cc}
+func NewRandomNumberClient(cc grpc.ClientConnInterface) RandomNumberClient {
+	return &randomNumberClient{cc}
 }
 
-func (c *renderingEngineClient) RenderPage(ctx context.Context, in *ReqMessage, opts ...grpc.CallOption) (*ResMessage, error) {
+func (c *randomNumberClient) GetRandomNumber(ctx context.Context, in *ReqMessage, opts ...grpc.CallOption) (*ResMessage, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ResMessage)
-	err := c.cc.Invoke(ctx, RenderingEngine_RenderPage_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, RandomNumber_GetRandomNumber_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// RenderingEngineServer is the server API for RenderingEngine service.
-// All implementations must embed UnimplementedRenderingEngineServer
+// RandomNumberServer is the server API for RandomNumber service.
+// All implementations must embed UnimplementedRandomNumberServer
 // for forward compatibility.
-type RenderingEngineServer interface {
-	RenderPage(context.Context, *ReqMessage) (*ResMessage, error)
-	mustEmbedUnimplementedRenderingEngineServer()
+type RandomNumberServer interface {
+	GetRandomNumber(context.Context, *ReqMessage) (*ResMessage, error)
+	mustEmbedUnimplementedRandomNumberServer()
 }
 
-// UnimplementedRenderingEngineServer must be embedded to have
+// UnimplementedRandomNumberServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedRenderingEngineServer struct{}
+type UnimplementedRandomNumberServer struct{}
 
-func (UnimplementedRenderingEngineServer) RenderPage(context.Context, *ReqMessage) (*ResMessage, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RenderPage not implemented")
+func (UnimplementedRandomNumberServer) GetRandomNumber(context.Context, *ReqMessage) (*ResMessage, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRandomNumber not implemented")
 }
-func (UnimplementedRenderingEngineServer) mustEmbedUnimplementedRenderingEngineServer() {}
-func (UnimplementedRenderingEngineServer) testEmbeddedByValue()                         {}
+func (UnimplementedRandomNumberServer) mustEmbedUnimplementedRandomNumberServer() {}
+func (UnimplementedRandomNumberServer) testEmbeddedByValue()                      {}
 
-// UnsafeRenderingEngineServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to RenderingEngineServer will
+// UnsafeRandomNumberServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to RandomNumberServer will
 // result in compilation errors.
-type UnsafeRenderingEngineServer interface {
-	mustEmbedUnimplementedRenderingEngineServer()
+type UnsafeRandomNumberServer interface {
+	mustEmbedUnimplementedRandomNumberServer()
 }
 
-func RegisterRenderingEngineServer(s grpc.ServiceRegistrar, srv RenderingEngineServer) {
-	// If the following call pancis, it indicates UnimplementedRenderingEngineServer was
+func RegisterRandomNumberServer(s grpc.ServiceRegistrar, srv RandomNumberServer) {
+	// If the following call pancis, it indicates UnimplementedRandomNumberServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&RenderingEngine_ServiceDesc, srv)
+	s.RegisterService(&RandomNumber_ServiceDesc, srv)
 }
 
-func _RenderingEngine_RenderPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _RandomNumber_GetRandomNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ReqMessage)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RenderingEngineServer).RenderPage(ctx, in)
+		return srv.(RandomNumberServer).GetRandomNumber(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: RenderingEngine_RenderPage_FullMethodName,
+		FullMethod: RandomNumber_GetRandomNumber_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RenderingEngineServer).RenderPage(ctx, req.(*ReqMessage))
+		return srv.(RandomNumberServer).GetRandomNumber(ctx, req.(*ReqMessage))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// RenderingEngine_ServiceDesc is the grpc.ServiceDesc for RenderingEngine service.
+// RandomNumber_ServiceDesc is the grpc.ServiceDesc for RandomNumber service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var RenderingEngine_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "rn.RenderingEngine",
-	HandlerType: (*RenderingEngineServer)(nil),
+var RandomNumber_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "rn.RandomNumber",
+	HandlerType: (*RandomNumberServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "RenderPage",
-			Handler:    _RenderingEngine_RenderPage_Handler,
+			MethodName: "GetRandomNumber",
+			Handler:    _RandomNumber_GetRandomNumber_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

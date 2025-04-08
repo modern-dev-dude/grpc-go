@@ -119,10 +119,9 @@ const file_packages_random_number_random_number_proto_rawDesc = "" +
 	"\x05reqId\x18\x01 \x01(\tR\x05reqId\"&\n" +
 	"\n" +
 	"ResMessage\x12\x18\n" +
-	"\arandNum\x18\x01 \x01(\x03R\arandNum2A\n" +
-	"\x0fRenderingEngine\x12.\n" +
-	"\n" +
-	"RenderPage\x12\x0e.rn.ReqMessage\x1a\x0e.rn.ResMessage\"\x00B\x11Z\x0f./random-numberb\x06proto3"
+	"\arandNum\x18\x01 \x01(\x03R\arandNum2C\n" +
+	"\fRandomNumber\x123\n" +
+	"\x0fGetRandomNumber\x12\x0e.rn.ReqMessage\x1a\x0e.rn.ResMessage\"\x00B\x11Z\x0f./random-numberb\x06proto3"
 
 var (
 	file_packages_random_number_random_number_proto_rawDescOnce sync.Once
@@ -142,8 +141,8 @@ var file_packages_random_number_random_number_proto_goTypes = []any{
 	(*ResMessage)(nil), // 1: rn.ResMessage
 }
 var file_packages_random_number_random_number_proto_depIdxs = []int32{
-	0, // 0: rn.RenderingEngine.RenderPage:input_type -> rn.ReqMessage
-	1, // 1: rn.RenderingEngine.RenderPage:output_type -> rn.ResMessage
+	0, // 0: rn.RandomNumber.GetRandomNumber:input_type -> rn.ReqMessage
+	1, // 1: rn.RandomNumber.GetRandomNumber:output_type -> rn.ResMessage
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

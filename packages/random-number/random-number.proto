@@ -11,6 +11,6 @@ message ResMessage {
   int64 randNum = 1;
 }
 
-service RenderingEngine {
-  rpc RenderPage(ReqMessage) returns (ResMessage) {}
+service RandomNumber {
+  rpc GetRandomNumber(ReqMessage) returns (ResMessage) {}
 }

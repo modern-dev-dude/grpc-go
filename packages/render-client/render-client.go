@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	rn "rendering-engine/packages/random-number"
 	"rendering-engine/packages/renderer"
 )
 
@@ -26,6 +27,7 @@ func StartClient() {
 	staticAssetPath := filepath.Join(cwd, "packages", "render-client", "static")
 	e.Static("/", staticAssetPath)
 	e.GET("/", renderPageHandler)
+	e.GET("/random-number", getRandomNumberHandler)
 
 	if err := e.Start(":8080"); err != nil {
 		log.Fatal(err)
@@ -80,4 +82,30 @@ func addRequestIdMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		c.Request().Header.Set(echo.HeaderXRequestID, guid.String())
 		return next(c)
 	}
+}
+
+func getRandomNumberHandler(c echo.Context) error {
+	c.Logger().Info("getRandomNumberHandler")
+	grpcConn, err := grpc.NewClient(":9001", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		errorHandler(c, err)
+		return err
+	}
+	defer grpcConn.Close()
+
+	rnClient := rn.NewRandomNumberClient(grpcConn)
+	msg := &rn.ReqMessage{
+		ReqId: c.Request().Header.Get(echo.HeaderXRequestID),
+	}
+
+	data, err := rnClient.GetRandomNumber(context.Background(), msg)
+	if err != nil {
+		errorHandler(c, err)
+	}
+
+	if err := c.JSON(http.StatusOK, data); err != nil {
+		errorHandler(c, err)
+	}
+
+	return nil
 }
