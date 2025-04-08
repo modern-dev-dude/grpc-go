@@ -23,8 +23,7 @@ func (s *Server) RenderPage(ctx context.Context, message *ReqMessage) (*ResMessa
 		return nil, errors.New("no metadata")
 	}
 
-	tmplName := "shell"
-	tmpl, err := renderTemplate(tmplName)
+	tmpl, err := renderTemplate()
 	if err != nil {
 		log.Printf("render template err: %v\n", err)
 		return nil, err
@@ -40,19 +39,31 @@ func (s *Server) RenderPage(ctx context.Context, message *ReqMessage) (*ResMessa
 	}, nil
 }
 
-func renderTemplate(tmplName string) (*template.Template, error) {
+func constructTemplateFilePath(tmplName string) (string, error) {
 	dir, err := os.Getwd()
 	if err != nil {
-		return nil, err
+		return "", err
 	}
+	return filepath.Join(dir, "packages", "renderer", "templates", tmplName+".html"), nil
+}
 
-	pathToTemplate := filepath.Join(dir, "packages", "renderer", "templates", tmplName+".html")
-
-	tmpl, err := template.ParseFiles(pathToTemplate)
+func renderTemplate() (*template.Template, error) {
+	shellPath, err := constructTemplateFilePath("shell")
 	if err != nil {
-		log.Printf("render template: %v\n", pathToTemplate)
-
 		return nil, err
 	}
+	innerPath, err := constructTemplateFilePath("inner")
+	if err != nil {
+		return nil, err
+	}
+
+	templateList := []string{shellPath, innerPath}
+
+	tmpl, err := template.ParseFiles(templateList...)
+	if err != nil {
+		log.Printf("render template: %v\n", templateList)
+		return nil, err
+	}
+
 	return tmpl, nil
 }

@@ -3,6 +3,7 @@ module rendering-engine
 go 1.22.7
 
 require (
+	github.com/google/uuid v1.6.0
 	github.com/labstack/echo/v4 v4.13.3
 	google.golang.org/grpc v1.71.1
 	google.golang.org/protobuf v1.36.6

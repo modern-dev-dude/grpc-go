@@ -2,6 +2,7 @@ package renderclient
 
 import (
 	"context"
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"google.golang.org/grpc"
@@ -15,6 +16,7 @@ import (
 
 func StartClient() {
 	e := echo.New()
+	e.Use(addRequestIdMiddleware)
 	e.Use(middleware.RequestID())
 
 	cwd, err := os.Getwd()
@@ -40,11 +42,14 @@ func renderPageHandler(c echo.Context) error {
 	defer grpcConn.Close()
 
 	grpcClient := renderer.NewRenderingEngineClient(grpcConn)
+
+	metadata := &renderer.Metadata{
+		ReqId: c.Request().Header.Get(echo.HeaderXRequestID),
+	}
+
 	msg := renderer.ReqMessage{
-		Data: "hello world",
-		Metadata: &renderer.Metadata{
-			ReqId: c.Request().Header.Get(echo.HeaderXRequestID),
-		},
+		Data:     "hello world",
+		Metadata: metadata,
 	}
 	res, err := grpcClient.RenderPage(context.Background(), &msg)
 	if err != nil {
@@ -60,5 +65,19 @@ func renderPageHandler(c echo.Context) error {
 
 func errorHandler(c echo.Context, err error) {
 	c.Logger().Errorf("rendering err: %v", err)
-	c.HTML(http.StatusInternalServerError, "Error handling request")
+	if err := c.HTML(http.StatusInternalServerError, "Error handling request"); err != nil {
+		log.Fatalf("error handling request %v\n", err)
+	}
+}
+
+func addRequestIdMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+	guid, err := uuid.NewUUID()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return func(c echo.Context) error {
+		c.Request().Header.Set(echo.HeaderXRequestID, guid.String())
+		return next(c)
+	}
 }
