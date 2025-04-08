@@ -18,10 +18,6 @@ func (s *Server) RenderPage(ctx context.Context, message *ReqMessage) (*ResMessa
 		return nil, errors.New("no metadata")
 	}
 
-	if meta.RenderType == RenderType_CSR {
-		// get CSR template
-	}
-
 	return &ResMessage{
 		Data: "",
 	}, nil

@@ -2,26 +2,19 @@ syntax = "proto3";
 package renderer;
 option go_package = "./renderer";
 
-
-enum RenderType {
-  CSR = 0;
-  SSR = 1;
-}
 message Metadata {
-  string id = 1;
-  RenderType renderType =2;
+  string reqId = 1;
 }
+
 message ReqMessage {
   string data = 1;
   Metadata metadata = 2;
 }
 
-
 message ResMessage {
-  string data = 1;
+  string markup = 1;
 }
 
-
-service Renderer {
+service RenderingEngine {
   rpc RenderPage(ReqMessage) returns (ResMessage) {}
 }
