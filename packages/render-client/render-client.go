@@ -20,13 +20,13 @@ func StartClient() {
 	if err != nil {
 		panic(err)
 	}
-	defer rendererGrpcConn.Close()
 
 	rnGrpcConn, err := grpc.NewClient(":9001", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		panic(err)
 	}
-	defer rnGrpcConn.Close()
+	
+	defer StopClient(rendererGrpcConn, rnGrpcConn)
 
 	rnClient := rn.NewRandomNumberClient(rnGrpcConn)
 	rendererClient := renderer.NewRenderingEngineClient(rendererGrpcConn)
@@ -50,6 +50,16 @@ func StartClient() {
 	})
 
 	if err := e.Start(":8080"); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func StopClient(rC *grpc.ClientConn, rnC *grpc.ClientConn) {
+	log.Printf("Shutting down client")
+	if err := rC.Close(); err != nil {
+		log.Fatal(err)
+	}
+	if err := rnC.Close(); err != nil {
 		log.Fatal(err)
 	}
 }
