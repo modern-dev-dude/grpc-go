@@ -16,6 +16,21 @@ import (
 )
 
 func StartClient() {
+	rendererGrpcConn, err := grpc.NewClient(":9000", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		panic(err)
+	}
+	defer rendererGrpcConn.Close()
+
+	rnGrpcConn, err := grpc.NewClient(":9001", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		panic(err)
+	}
+	defer rnGrpcConn.Close()
+
+	rnClient := rn.NewRandomNumberClient(rnGrpcConn)
+	rendererClient := renderer.NewRenderingEngineClient(rendererGrpcConn)
+
 	e := echo.New()
 	e.Use(addRequestIdMiddleware)
 	e.Use(middleware.RequestID())
@@ -26,24 +41,21 @@ func StartClient() {
 	}
 	staticAssetPath := filepath.Join(cwd, "packages", "render-client", "static")
 	e.Static("/", staticAssetPath)
-	e.GET("/", renderPageHandler)
-	e.GET("/random-number", getRandomNumberHandler)
+	e.GET("/", func(c echo.Context) error {
+		return renderPageHandler(c, rendererClient)
+	})
+
+	e.GET("/random-number", func(c echo.Context) error {
+		return getRandomNumberHandler(c, rnClient)
+	})
 
 	if err := e.Start(":8080"); err != nil {
 		log.Fatal(err)
 	}
 }
 
-func renderPageHandler(c echo.Context) error {
+func renderPageHandler(c echo.Context, rendererGrpcClient renderer.RenderingEngineClient) error {
 	c.Logger().Info("renderPageHandler")
-	grpcConn, err := grpc.NewClient(":9000", grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		errorHandler(c, err)
-		return err
-	}
-	defer grpcConn.Close()
-
-	grpcClient := renderer.NewRenderingEngineClient(grpcConn)
 
 	metadata := &renderer.Metadata{
 		ReqId: c.Request().Header.Get(echo.HeaderXRequestID),
@@ -53,7 +65,7 @@ func renderPageHandler(c echo.Context) error {
 		Data:     "hello world",
 		Metadata: metadata,
 	}
-	res, err := grpcClient.RenderPage(context.Background(), &msg)
+	res, err := rendererGrpcClient.RenderPage(context.Background(), &msg)
 	if err != nil {
 		errorHandler(c, err)
 	}
@@ -84,21 +96,14 @@ func addRequestIdMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-func getRandomNumberHandler(c echo.Context) error {
+func getRandomNumberHandler(c echo.Context, rendererGrpcClient rn.RandomNumberClient) error {
 	c.Logger().Info("getRandomNumberHandler")
-	grpcConn, err := grpc.NewClient(":9001", grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		errorHandler(c, err)
-		return err
-	}
-	defer grpcConn.Close()
 
-	rnClient := rn.NewRandomNumberClient(grpcConn)
 	msg := &rn.ReqMessage{
 		ReqId: c.Request().Header.Get(echo.HeaderXRequestID),
 	}
 
-	data, err := rnClient.GetRandomNumber(context.Background(), msg)
+	data, err := rendererGrpcClient.GetRandomNumber(context.Background(), msg)
 	if err != nil {
 		errorHandler(c, err)
 	}
