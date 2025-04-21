@@ -4,7 +4,7 @@
 // - protoc             v5.28.2
 // source: proto/random-number.proto
 
-package __
+package random_number
 
 import (
 	context "context"

@@ -4,7 +4,7 @@
 // 	protoc        v5.28.2
 // source: proto/renderer.proto
 
-package __
+package renderer
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -177,7 +177,8 @@ const file_proto_renderer_proto_rawDesc = "" +
 	"\x06markup\x18\x01 \x01(\tR\x06markup2M\n" +
 	"\x0fRenderingEngine\x12:\n" +
 	"\n" +
-	"RenderPage\x12\x14.renderer.ReqMessage\x1a\x14.renderer.ResMessage\"\x00B\x04Z\x02./b\x06proto3"
+	"RenderPage\x12\x14.renderer.ReqMessage\x1a\x14.renderer.ResMessage\"\x00B\fZ\n" +
+	"./rendererb\x06proto3"
 
 var (
 	file_proto_renderer_proto_rawDescOnce sync.Once

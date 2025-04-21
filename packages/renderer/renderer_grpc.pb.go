@@ -4,7 +4,7 @@
 // - protoc             v5.28.2
 // source: proto/renderer.proto
 
-package __
+package renderer
 
 import (
 	context "context"

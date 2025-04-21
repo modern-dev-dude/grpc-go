@@ -4,7 +4,7 @@
 // 	protoc        v5.28.2
 // source: proto/random-number.proto
 
-package __
+package random_number
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -121,7 +121,7 @@ const file_proto_random_number_proto_rawDesc = "" +
 	"ResMessage\x12\x18\n" +
 	"\arandNum\x18\x01 \x01(\x03R\arandNum2C\n" +
 	"\fRandomNumber\x123\n" +
-	"\x0fGetRandomNumber\x12\x0e.rn.ReqMessage\x1a\x0e.rn.ResMessage\"\x00B\x04Z\x02./b\x06proto3"
+	"\x0fGetRandomNumber\x12\x0e.rn.ReqMessage\x1a\x0e.rn.ResMessage\"\x00B\x11Z\x0f./random-numberb\x06proto3"
 
 var (
 	file_proto_random_number_proto_rawDescOnce sync.Once
