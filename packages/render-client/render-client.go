@@ -11,8 +11,8 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	go_renderer "rendering-engine/packages/go-renderer"
 	rn "rendering-engine/packages/random-number"
-	"rendering-engine/packages/renderer"
 )
 
 func StartClient() {

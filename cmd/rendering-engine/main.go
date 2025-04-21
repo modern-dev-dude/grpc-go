@@ -4,7 +4,7 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"net"
-	"rendering-engine/packages/renderer"
+	"rendering-engine/packages/go-renderer"
 )
 
 var PORT = ":9000"

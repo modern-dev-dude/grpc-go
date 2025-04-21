@@ -44,7 +44,7 @@ func constructTemplateFilePath(tmplName string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(dir, "packages", "renderer", "templates", tmplName+".html"), nil
+	return filepath.Join(dir, "packages", "go-renderer", "templates", tmplName+".html"), nil
 }
 
 func renderTemplate() (*template.Template, error) {
