@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.28.2
-// source: packages/renderer/renderer.proto
+// source: proto/renderer.proto
 
-package renderer
+package __
 
 import (
 	context "context"
@@ -117,5 +117,5 @@ var RenderingEngine_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "packages/renderer/renderer.proto",
+	Metadata: "proto/renderer.proto",
 }

@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v5.28.2
-// source: packages/random-number/random-number.proto
+// source: proto/random-number.proto
 
-package random_number
+package __
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -30,7 +30,7 @@ type ReqMessage struct {
 
 func (x *ReqMessage) Reset() {
 	*x = ReqMessage{}
-	mi := &file_packages_random_number_random_number_proto_msgTypes[0]
+	mi := &file_proto_random_number_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -42,7 +42,7 @@ func (x *ReqMessage) String() string {
 func (*ReqMessage) ProtoMessage() {}
 
 func (x *ReqMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_packages_random_number_random_number_proto_msgTypes[0]
+	mi := &file_proto_random_number_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,7 +55,7 @@ func (x *ReqMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ReqMessage.ProtoReflect.Descriptor instead.
 func (*ReqMessage) Descriptor() ([]byte, []int) {
-	return file_packages_random_number_random_number_proto_rawDescGZIP(), []int{0}
+	return file_proto_random_number_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ReqMessage) GetReqId() string {
@@ -74,7 +74,7 @@ type ResMessage struct {
 
 func (x *ResMessage) Reset() {
 	*x = ResMessage{}
-	mi := &file_packages_random_number_random_number_proto_msgTypes[1]
+	mi := &file_proto_random_number_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -86,7 +86,7 @@ func (x *ResMessage) String() string {
 func (*ResMessage) ProtoMessage() {}
 
 func (x *ResMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_packages_random_number_random_number_proto_msgTypes[1]
+	mi := &file_proto_random_number_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -99,7 +99,7 @@ func (x *ResMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResMessage.ProtoReflect.Descriptor instead.
 func (*ResMessage) Descriptor() ([]byte, []int) {
-	return file_packages_random_number_random_number_proto_rawDescGZIP(), []int{1}
+	return file_proto_random_number_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ResMessage) GetRandNum() int64 {
@@ -109,11 +109,11 @@ func (x *ResMessage) GetRandNum() int64 {
 	return 0
 }
 
-var File_packages_random_number_random_number_proto protoreflect.FileDescriptor
+var File_proto_random_number_proto protoreflect.FileDescriptor
 
-const file_packages_random_number_random_number_proto_rawDesc = "" +
+const file_proto_random_number_proto_rawDesc = "" +
 	"\n" +
-	"*packages/random-number/random-number.proto\x12\x02rn\"\"\n" +
+	"\x19proto/random-number.proto\x12\x02rn\"\"\n" +
 	"\n" +
 	"ReqMessage\x12\x14\n" +
 	"\x05reqId\x18\x01 \x01(\tR\x05reqId\"&\n" +
@@ -121,26 +121,26 @@ const file_packages_random_number_random_number_proto_rawDesc = "" +
 	"ResMessage\x12\x18\n" +
 	"\arandNum\x18\x01 \x01(\x03R\arandNum2C\n" +
 	"\fRandomNumber\x123\n" +
-	"\x0fGetRandomNumber\x12\x0e.rn.ReqMessage\x1a\x0e.rn.ResMessage\"\x00B\x11Z\x0f./random-numberb\x06proto3"
+	"\x0fGetRandomNumber\x12\x0e.rn.ReqMessage\x1a\x0e.rn.ResMessage\"\x00B\x04Z\x02./b\x06proto3"
 
 var (
-	file_packages_random_number_random_number_proto_rawDescOnce sync.Once
-	file_packages_random_number_random_number_proto_rawDescData []byte
+	file_proto_random_number_proto_rawDescOnce sync.Once
+	file_proto_random_number_proto_rawDescData []byte
 )
 
-func file_packages_random_number_random_number_proto_rawDescGZIP() []byte {
-	file_packages_random_number_random_number_proto_rawDescOnce.Do(func() {
-		file_packages_random_number_random_number_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_packages_random_number_random_number_proto_rawDesc), len(file_packages_random_number_random_number_proto_rawDesc)))
+func file_proto_random_number_proto_rawDescGZIP() []byte {
+	file_proto_random_number_proto_rawDescOnce.Do(func() {
+		file_proto_random_number_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_random_number_proto_rawDesc), len(file_proto_random_number_proto_rawDesc)))
 	})
-	return file_packages_random_number_random_number_proto_rawDescData
+	return file_proto_random_number_proto_rawDescData
 }
 
-var file_packages_random_number_random_number_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_packages_random_number_random_number_proto_goTypes = []any{
+var file_proto_random_number_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_proto_random_number_proto_goTypes = []any{
 	(*ReqMessage)(nil), // 0: rn.ReqMessage
 	(*ResMessage)(nil), // 1: rn.ResMessage
 }
-var file_packages_random_number_random_number_proto_depIdxs = []int32{
+var file_proto_random_number_proto_depIdxs = []int32{
 	0, // 0: rn.RandomNumber.GetRandomNumber:input_type -> rn.ReqMessage
 	1, // 1: rn.RandomNumber.GetRandomNumber:output_type -> rn.ResMessage
 	1, // [1:2] is the sub-list for method output_type
@@ -150,26 +150,26 @@ var file_packages_random_number_random_number_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_packages_random_number_random_number_proto_init() }
-func file_packages_random_number_random_number_proto_init() {
-	if File_packages_random_number_random_number_proto != nil {
+func init() { file_proto_random_number_proto_init() }
+func file_proto_random_number_proto_init() {
+	if File_proto_random_number_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_packages_random_number_random_number_proto_rawDesc), len(file_packages_random_number_random_number_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_random_number_proto_rawDesc), len(file_proto_random_number_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_packages_random_number_random_number_proto_goTypes,
-		DependencyIndexes: file_packages_random_number_random_number_proto_depIdxs,
-		MessageInfos:      file_packages_random_number_random_number_proto_msgTypes,
+		GoTypes:           file_proto_random_number_proto_goTypes,
+		DependencyIndexes: file_proto_random_number_proto_depIdxs,
+		MessageInfos:      file_proto_random_number_proto_msgTypes,
 	}.Build()
-	File_packages_random_number_random_number_proto = out.File
-	file_packages_random_number_random_number_proto_goTypes = nil
-	file_packages_random_number_random_number_proto_depIdxs = nil
+	File_proto_random_number_proto = out.File
+	file_proto_random_number_proto_goTypes = nil
+	file_proto_random_number_proto_depIdxs = nil
 }

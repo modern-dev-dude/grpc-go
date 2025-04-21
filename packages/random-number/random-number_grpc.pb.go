@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.28.2
-// source: packages/random-number/random-number.proto
+// source: proto/random-number.proto
 
-package random_number
+package __
 
 import (
 	context "context"
@@ -117,5 +117,5 @@ var RandomNumber_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "packages/random-number/random-number.proto",
+	Metadata: "proto/random-number.proto",
 }
