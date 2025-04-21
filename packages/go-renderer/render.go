@@ -61,7 +61,6 @@ func renderTemplate() (*template.Template, error) {
 
 	tmpl, err := template.ParseFiles(templateList...)
 	if err != nil {
-		log.Printf("render template: %v\n", templateList)
 		return nil, err
 	}
 

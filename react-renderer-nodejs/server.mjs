@@ -16,8 +16,10 @@ export default function startServer(){
 }
 
 function renderReactHandler(req, res){
+    const reqId = req.get("X-Request-ID")
     const component = React.createElement("div", {
-        dangerouslySetInnerHTML: {__html: "hello from node microservice!"}
+        className:'rounded-xl p-4 border-2 justify-items-center border-black-50 shadow-xl',
+        dangerouslySetInnerHTML: {__html: `hello from node microservice!\n Req ID= ${reqId}`}
     })
     const html = renderToStaticMarkup(component)
 

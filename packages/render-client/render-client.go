@@ -2,6 +2,7 @@ package renderclient
 
 import (
 	"context"
+	"fmt"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -18,6 +19,7 @@ import (
 func StartClient() {
 	rendererGrpcConn, err := grpc.NewClient(":9000", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
+
 		panic(err)
 	}
 
@@ -26,10 +28,16 @@ func StartClient() {
 		panic(err)
 	}
 
+	reactRendererGrpcConn, err := grpc.NewClient(":9002", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		panic(err)
+	}
+
 	defer StopClient(rendererGrpcConn, rnGrpcConn)
 
 	rnClient := rn.NewRandomNumberClient(rnGrpcConn)
 	rendererClient := go_renderer.NewRenderingEngineClient(rendererGrpcConn)
+	reactRendererGrpcConnClient := go_renderer.NewRenderingEngineClient(reactRendererGrpcConn)
 
 	e := echo.New()
 	e.Use(addRequestIdMiddleware)
@@ -42,7 +50,7 @@ func StartClient() {
 	staticAssetPath := filepath.Join(cwd, "packages", "render-client", "static")
 	e.Static("/", staticAssetPath)
 	e.GET("/", func(c echo.Context) error {
-		return renderPageHandler(c, rendererClient)
+		return renderPageHandler(c, rendererClient, reactRendererGrpcConnClient)
 	})
 
 	e.GET("/random-number", func(c echo.Context) error {
@@ -64,7 +72,7 @@ func StopClient(rC *grpc.ClientConn, rnC *grpc.ClientConn) {
 	}
 }
 
-func renderPageHandler(c echo.Context, rendererGrpcClient go_renderer.RenderingEngineClient) error {
+func renderPageHandler(c echo.Context, rendererGrpcClient, reactRendererGrpcClient go_renderer.RenderingEngineClient) error {
 	c.Logger().Info("renderPageHandler")
 
 	metadata := &go_renderer.Metadata{
@@ -75,6 +83,14 @@ func renderPageHandler(c echo.Context, rendererGrpcClient go_renderer.RenderingE
 		Data:     "hello world",
 		Metadata: metadata,
 	}
+
+	nodeRes, err := reactRendererGrpcClient.RenderPage(context.Background(), &msg)
+	if err != nil {
+		errorHandler(c, err)
+	}
+
+	fmt.Printf("node res: \n%v\n", nodeRes)
+
 	res, err := rendererGrpcClient.RenderPage(context.Background(), &msg)
 	if err != nil {
 		errorHandler(c, err)
