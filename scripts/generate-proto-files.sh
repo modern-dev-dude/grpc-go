@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-generateProtoFiles(){
+generateGoProtoFiles(){
    protoc \
    --go_out=./packages \
    --go_opt=paths=import \
@@ -19,6 +19,6 @@ fi
 for file in "$proto_dir"/*; do
     strip_path=${file##*/}
     strip_ext=${strip_path%.*}
-    generateProtoFiles $strip_path
+    generateGoProtoFiles $strip_path
 done
 

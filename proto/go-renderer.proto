@@ -1,6 +1,6 @@
 syntax = "proto3";
-package renderer;
-option go_package = "./renderer";
+package go_renderer;
+option go_package = "./go-renderer";
 
 message Metadata {
   string reqId = 1;

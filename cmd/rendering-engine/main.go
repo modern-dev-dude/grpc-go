@@ -14,10 +14,10 @@ func main() {
 	if err != nil {
 		log.Fatalf("error starting grpc server %v\n", err)
 	}
-	s := renderer.Server{}
+	s := go_renderer.Server{}
 	grpcServer := grpc.NewServer()
 
-	renderer.RegisterRenderingEngineServer(grpcServer, &s)
+	go_renderer.RegisterRenderingEngineServer(grpcServer, &s)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("error starting grpc server %v\n", err)

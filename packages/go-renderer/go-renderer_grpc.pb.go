@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.28.2
-// source: proto/renderer.proto
+// source: proto/go-renderer.proto
 
-package renderer
+package go_renderer
 
 import (
 	context "context"
@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	RenderingEngine_RenderPage_FullMethodName = "/renderer.RenderingEngine/RenderPage"
+	RenderingEngine_RenderPage_FullMethodName = "/go_renderer.RenderingEngine/RenderPage"
 )
 
 // RenderingEngineClient is the client API for RenderingEngine service.
@@ -108,7 +108,7 @@ func _RenderingEngine_RenderPage_Handler(srv interface{}, ctx context.Context, d
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var RenderingEngine_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "renderer.RenderingEngine",
+	ServiceName: "go_renderer.RenderingEngine",
 	HandlerType: (*RenderingEngineServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -117,5 +117,5 @@ var RenderingEngine_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/renderer.proto",
+	Metadata: "proto/go-renderer.proto",
 }

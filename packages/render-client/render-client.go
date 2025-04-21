@@ -25,11 +25,11 @@ func StartClient() {
 	if err != nil {
 		panic(err)
 	}
-	
+
 	defer StopClient(rendererGrpcConn, rnGrpcConn)
 
 	rnClient := rn.NewRandomNumberClient(rnGrpcConn)
-	rendererClient := renderer.NewRenderingEngineClient(rendererGrpcConn)
+	rendererClient := go_renderer.NewRenderingEngineClient(rendererGrpcConn)
 
 	e := echo.New()
 	e.Use(addRequestIdMiddleware)
@@ -64,14 +64,14 @@ func StopClient(rC *grpc.ClientConn, rnC *grpc.ClientConn) {
 	}
 }
 
-func renderPageHandler(c echo.Context, rendererGrpcClient renderer.RenderingEngineClient) error {
+func renderPageHandler(c echo.Context, rendererGrpcClient go_renderer.RenderingEngineClient) error {
 	c.Logger().Info("renderPageHandler")
 
-	metadata := &renderer.Metadata{
+	metadata := &go_renderer.Metadata{
 		ReqId: c.Request().Header.Get(echo.HeaderXRequestID),
 	}
 
-	msg := renderer.ReqMessage{
+	msg := go_renderer.ReqMessage{
 		Data:     "hello world",
 		Metadata: metadata,
 	}
