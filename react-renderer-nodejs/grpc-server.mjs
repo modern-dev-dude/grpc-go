@@ -2,8 +2,8 @@
 import grpc from '@grpc/grpc-js';
 import protoLoader from '@grpc/proto-loader';
 import path from 'path';
-import React from "react";
 import {renderToStaticMarkup} from "react-dom/server";
+import HelloFromReact from "./Hello.mjs";
 
 
 const PROTO_PATH = path.join(import.meta.dirname,"../proto/go-renderer.proto")
@@ -22,14 +22,11 @@ const renderer_proto = protoDescriptor.go_renderer;
 function renderPage(call, callback) {
     const reqId = call.request.metadata.reqId
 
-    const component = React.createElement("div", {
-        className:'rounded-xl p-4 border-2 justify-items-center border-black-50 shadow-xl',
-        dangerouslySetInnerHTML: {__html: `hello from node microservice!\n Req ID= ${reqId}`}
-    })
-    const html = renderToStaticMarkup(component)
-    callback(null, {message:{
-            markup: "asdas"
-    }});
+
+    const html = renderToStaticMarkup(HelloFromReact({reqId}))
+    callback(null, {
+        markup: html
+    });
 }
 
 /**

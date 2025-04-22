@@ -2,7 +2,6 @@ package renderclient
 
 import (
 	"context"
-	"fmt"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -84,13 +83,12 @@ func renderPageHandler(c echo.Context, rendererGrpcClient, reactRendererGrpcClie
 		Metadata: metadata,
 	}
 
-	nodeRes, err := reactRendererGrpcClient.RenderPage(context.Background(), &msg)
+	reactNodeRes, err := reactRendererGrpcClient.RenderPage(context.Background(), &msg)
 	if err != nil {
 		errorHandler(c, err)
 	}
 
-	fmt.Printf("node res: \n%v\n", nodeRes)
-
+	msg.Data = reactNodeRes.Markup
 	res, err := rendererGrpcClient.RenderPage(context.Background(), &msg)
 	if err != nil {
 		errorHandler(c, err)

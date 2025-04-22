@@ -17,10 +17,19 @@ func (s *Server) mustEmbedUnimplementedRenderingEngineServer() {
 	panic("implement me")
 }
 
+type TemplateData struct {
+	Metadata *Metadata
+	Data     template.HTML
+}
+
 func (s *Server) RenderPage(ctx context.Context, message *ReqMessage) (*ResMessage, error) {
-	meta := message.Metadata
-	if meta == nil {
-		return nil, errors.New("no metadata")
+	if message == nil {
+		return nil, errors.New("message from client is nil")
+	}
+
+	templateData := TemplateData{
+		Metadata: message.Metadata,
+		Data:     template.HTML(message.Data),
 	}
 
 	tmpl, err := renderTemplate()
@@ -29,7 +38,7 @@ func (s *Server) RenderPage(ctx context.Context, message *ReqMessage) (*ResMessa
 		return nil, err
 	}
 	buf := bytes.NewBuffer(nil)
-	if err := tmpl.Execute(buf, meta); err != nil {
+	if err := tmpl.Execute(buf, templateData); err != nil {
 		log.Printf("err: %v", err)
 		return nil, err
 	}
