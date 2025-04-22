@@ -8,13 +8,21 @@
 	<script src="./htmx.js"></script>
 </head>
 <body>
-	<div class="relative grid h-screen content-center justify-center">
-		<div class="rounded-xl p-4 border-2 justify-items-center border-black-50 shadow-xl">
-			<p>Rendering with gRPC and Go</p>
+	<div class="w-2/3 mx-auto grid h-screen content-center justify-center gap-4">
+		<div class="rounded-xl p-4 border-2 border-black-50 shadow-xl">
+			<p>This website is an entirely overengineered demo showing how multiple teams can build microfront ends.</p>
+			<p>There are a few sections to be aware of. The shell of the page and two of the boxes are rendered with Go and HTML templates.</p>
+			<p>Another box is rendered with React and NodeJS on the server. Lastly there is some client code functionality to generate a random number.
+			This simulates a fetch call to the main server that then uses gRPC to call a random number generator service. </p>
+		</div>
+
+		<div class="rounded-xl p-4 border-2 border-black-50 shadow-xl">
+			<p>This is rendered with Go HTML Templates</p>
 			{{template "inner.html" .Metadata}}
 		</div>
 		{{.Data}}
-		<div class="rounded-xl p-4 border-2 justify-items-center border-black-50 shadow-xl">
+		<div class="rounded-xl p-4 border-2 border-black-50 shadow-xl">
+			<p>This uses a fetch call to the main server that uses gRPC to call a random number generator service.</p>
 			<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="randomNumber()">Click </button>
 			<p>random number generated: &nbsp;<span id="random-number"></span></p>
 		</div>
