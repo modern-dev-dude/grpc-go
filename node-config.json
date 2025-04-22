@@ -1,0 +1,11 @@
+{
+  "reactTeam": {
+    "grpcPort": 9002
+  },
+  "vueTeam": {
+    "grpcPort": 9003,
+    "specifiers" :{
+      "vue": "../node_modules/vue/index.js"
+    }
+  }
+}

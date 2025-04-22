@@ -1,0 +1,18 @@
+{
+  "name": "vue-renderer-nodejs",
+  "version": "1.0.0",
+  "description": "demo vue SSR app for micro frontends called with gRPC ",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node grpc-server.mjs",
+    "dev": "node --import ./bootstrap.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jason S",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "vue": "^3.5.13"
+  }
+}
