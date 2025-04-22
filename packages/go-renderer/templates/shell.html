@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rendering with gRPC and Go</title>
+	<script type="importmap">
+		{
+            "imports": {
+                "@mdd/hydrateVue.mjs": "./vue-client.mjs",
+                "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+            }
+        }
+	</script>
 	<script src="./tailwind-css.js"></script>
 	<script src="./htmx.js"></script>
 </head>
@@ -28,6 +36,12 @@
 		</div>
 	</div>
 <script>
+	// hydrate
+	import('@mdd/hydrateVue.mjs').then(({hydrateVue}) =>{
+		hydrateVue()
+	})
+
+	// register fetch functions for button rendered in GO
 	function randomNumber(){
 		 fetch("./random-number").then(res => res.json()).then(data => {
 			const el = document.getElementById("random-number")
@@ -35,6 +49,8 @@
 			el.innerText = data?.randNum ?? "no number generated"
 		})
 	}
+
+
 </script>
 </body>
 </html>

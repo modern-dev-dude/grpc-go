@@ -2,6 +2,7 @@ package renderclient
 
 import (
 	"context"
+	"fmt"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -32,11 +33,17 @@ func StartClient() {
 		panic(err)
 	}
 
+	vueRendererGrpcConn, err := grpc.NewClient(":9003", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		panic(err)
+	}
+
 	defer StopClient(rendererGrpcConn, rnGrpcConn)
 
 	rnClient := rn.NewRandomNumberClient(rnGrpcConn)
 	rendererClient := go_renderer.NewRenderingEngineClient(rendererGrpcConn)
 	reactRendererGrpcConnClient := go_renderer.NewRenderingEngineClient(reactRendererGrpcConn)
+	vueRenderingClient := go_renderer.NewRenderingEngineClient(vueRendererGrpcConn)
 
 	e := echo.New()
 	e.Use(addRequestIdMiddleware)
@@ -55,7 +62,7 @@ func StartClient() {
 	staticAssetPath := filepath.Join(cwd, "packages", "render-client", "static")
 	e.Static("/", staticAssetPath)
 	e.GET("/", func(c echo.Context) error {
-		return renderPageHandler(c, rendererClient, reactRendererGrpcConnClient)
+		return renderPageHandler(c, rendererClient, reactRendererGrpcConnClient, vueRenderingClient)
 	})
 
 	e.GET("/random-number", func(c echo.Context) error {
@@ -77,7 +84,7 @@ func StopClient(rC *grpc.ClientConn, rnC *grpc.ClientConn) {
 	}
 }
 
-func renderPageHandler(c echo.Context, rendererGrpcClient, reactRendererGrpcClient go_renderer.RenderingEngineClient) error {
+func renderPageHandler(c echo.Context, rendererGrpcClient, reactRendererGrpcClient, vueRenderingClient go_renderer.RenderingEngineClient) error {
 	c.Logger().Info("renderPageHandler")
 
 	metadata := &go_renderer.Metadata{
@@ -94,7 +101,11 @@ func renderPageHandler(c echo.Context, rendererGrpcClient, reactRendererGrpcClie
 		errorHandler(c, err)
 	}
 
-	msg.Data = reactNodeRes.Markup
+	vueNodeRes, err := vueRenderingClient.RenderPage(context.Background(), &msg)
+	if err != nil {
+		errorHandler(c, err)
+	}
+	msg.Data = fmt.Sprintf(`%s<div class="rounded-xl p-4 border-2 border-black-50 shadow-xl" id="vue-mfe">%s</div>`, reactNodeRes.Markup, vueNodeRes.Markup)
 	res, err := rendererGrpcClient.RenderPage(context.Background(), &msg)
 	if err != nil {
 		errorHandler(c, err)
