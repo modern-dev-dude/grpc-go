@@ -4,13 +4,15 @@
   "description": "demo vue SSR app for micro frontends called with gRPC ",
   "main": "index.mjs",
   "scripts": {
-    "start": "node grpc-server.mjs",
+    "start": "node --import ./bootstrap-grpc.mjs",
     "dev": "node --import ./bootstrap.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jason S",
   "license": "MIT",
   "dependencies": {
+    "@grpc/grpc-js": "^1.13.3",
+    "@grpc/proto-loader": "^0.7.15",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "vue": "^3.5.13"

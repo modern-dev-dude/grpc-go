@@ -41,7 +41,6 @@ function renderReactHandler(req, res){
                 import('@mdd/hydrateVue.mjs').then(({hydrateVue}) =>{
                     hydrateVue()
                 }) 
-                
                 </script>
               </body>
             </html>`
