@@ -3,17 +3,19 @@ package renderclient
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"path/filepath"
+
+	go_renderer "rendering-engine/packages/go-renderer"
+	rn "rendering-engine/packages/random-number"
+
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"log"
-	"net/http"
-	"os"
-	"path/filepath"
-	go_renderer "rendering-engine/packages/go-renderer"
-	rn "rendering-engine/packages/random-number"
 )
 
 func StartClient() {
