@@ -1,7 +1,18 @@
 import Component from '@glimmer/component';
 import { action } from "@ember/object"
+import { tracked } from "@glimmer/tracking"
 
 export default class LoginFormComponent extends Component {
+    @tracked
+    userId = null;
+
+    /**
+     * @returns {boolean}
+     */
+    get isDisabled(){
+        return !this.userId
+    }
+    
     /**
      * 
      * @param {Event & { target: HTMLFormElement}} evt 
@@ -18,6 +29,15 @@ export default class LoginFormComponent extends Component {
 
     loginAsUserWithId(val){
         console.log(val)    
+    }
+
+    /**
+     * 
+     * @param {Event & {target: HTMLSelectElement}} e 
+     */
+    @action
+    selectChanged(e) {
+        this.userId = e.target.value
     }
 }
 
