@@ -1,27 +1,7 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import AuthService from 'shlack/services/auth';
-
-export const ALL_TEAMS = [
-  {
-    id: 'linkedin',
-    name: 'LinkedIn',
-    order: 2,
-    iconUrl: '/assets/img/linkedin.png',
-  },
-  {
-    id: 'ms',
-    name: 'Microsoft',
-    order: 3,
-    iconUrl: '/assets/img/microsoft.png',
-  },
-  {
-    id: 'avengers',
-    name: 'Avengers',
-    order: 4,
-    iconUrl: '/assets/img/avengers.jpg',
-  },
-];
+import fetch from 'fetch';
 
 export default class TeamsRoute extends Route {
   /**
@@ -37,7 +17,8 @@ export default class TeamsRoute extends Route {
     }
   }
 
-  async model(){ 
-    return Promise.resolve(ALL_TEAMS)
+  async model(){
+    const res = await fetch('/api/teams')
+    return res.json()
   }
 }
